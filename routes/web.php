@@ -3,6 +3,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\LoggingController;
+use App\Http\Controllers\SupportTeam\MpesaController;
 
 Auth::routes(['register' => false]);
 Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -102,6 +104,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::delete('reset_record/{id}', 'PaymentController@reset_record')->name('payments.reset_record');
             Route::post('pay_now/{id}', 'PaymentController@pay_now')->name('payments.pay_now');
             Route::post('mpesa', [\App\Http\Controllers\SupportTeam\PaymentController::class, 'payWithMpesa'])->name('payments.mpesa');
+            Route::post('/stk_pay_now/{pr_id}', [\App\Http\Controllers\SupportTeam\PaymentController::class, 'stk_pay_now'])->name('payments.stk_pay_now');
+            Route::post('payments/stk_push/{pr_id}', [PaymentController::class, 'stk_push'])->name('payments.stk_push');
         
 
         });
@@ -195,7 +199,6 @@ Route::view('/admission', 'admission')->name('admission');
 Route::view('/contact', 'contact')->name('contact');
 Route::view('/calendar', 'calendar')->name('calendar');
 
-Route::post('/mpesa/callback', function(Request $request) {
-    \Log::info('M-Pesa Callback:', $request->all());
-    return response()->json(['ResultCode' => 0, 'ResultDesc' => 'Success']);
-})->name('mpesa.callback');
+Route::post('/mpesa/callback', [MpesaController::class, 'callback'])->name('mpesa.callback');
+
+Route::get('/logs', [LoggingController::class, 'index'])->middleware('auth');

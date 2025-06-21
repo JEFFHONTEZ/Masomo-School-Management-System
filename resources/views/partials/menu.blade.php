@@ -219,6 +219,15 @@
                     <a href="{{ route('my_account') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['my_account']) ? 'active' : '' }}"><i class="icon-user"></i> <span>My Account</span></a>
                 </li>
 
+                @if(Auth::user() && Auth::user()->user_type === 'super_admin')
+                    <li class="nav-item">
+                        <a href="{{ url('/logs') }}" class="nav-link">
+                            <i class="icon-list"></i>
+                            <span>User Event Logs</span>
+                        </a>
+                    </li>
+                @endif
+
                 </ul>
             </div>
         </div>

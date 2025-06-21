@@ -154,4 +154,45 @@
         </div>
     </div>
     {{--Events Calendar Ends--}}
+
+    @if(Auth::user() && Auth::user()->user_type === 'super_admin' && isset($logs))
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title">Recent User Event Logs</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>URL</th>
+                            <th>IP</th>
+                            <th>Browser</th>
+                            <th>Action</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($logs as $log)
+                            <tr>
+                                <td>{{ $log->id }}</td>
+                                <td>{{ $log->user_id }}</td>
+                                <td>{{ $log->url }}</td>
+                                <td>{{ $log->ip_address }}</td>
+                                <td>{{ Str::limit($log->browser, 30) }}</td>
+                                <td>{{ $log->action }}</td>
+                                <td>{{ $log->created_at }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7">No logs found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                <a href="{{ url('/logs') }}" class="btn btn-primary btn-sm mt-2">View All Logs</a>
+            </div>
+        </div>
+    @endif
 @endsection

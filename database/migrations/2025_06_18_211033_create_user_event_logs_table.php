@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateNationalitiesTable extends Migration
+class CreateUserEventLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateNationalitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('nationalities', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
+        Schema::create('user_event_logs', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ class CreateNationalitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nationalities');
+        Schema::dropIfExists('user_event_logs');
     }
 }

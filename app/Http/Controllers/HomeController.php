@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Qs;
 use App\Repositories\UserRepo;
 use App\Repositories\StudentRepo;
+use App\Models\UserEventLog;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -59,8 +60,13 @@ class HomeController extends Controller
             $students = [];
         }
 
+        $logs = null;
+        if (Auth::user() && Auth::user()->user_type === 'super_admin') {
+            $logs = UserEventLog::latest()->take(20)->get(); // show last 20 logs
+        }
+
         // Pass $students to the view, along with other variables
-        return view('pages.support_team.dashboard', $data);
+        return view('pages.support_team.dashboard', compact('users', 'students_by_class', 'logs'));
     }
 
     public function privacy_policy()
