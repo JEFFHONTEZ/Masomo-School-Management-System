@@ -91,6 +91,11 @@ Email: jeff@parent.com
 
 Password: 123456789
 
+➤ Accountant
+Email: jeff@accountant.com
+
+Password: 123456789
+
 ➤ Student
 Email: jeff@student.com
 
