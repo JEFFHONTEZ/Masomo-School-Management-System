@@ -2,3 +2,48 @@
     border: 1px solid #000;
     border-collapse: collapse;
 }
+
+/* Make sidebar background black */
+.sidebar.sidebar-dark {
+    background-color: #000 !important;
+}
+
+/* Sidebar and menu card border radius */
+.sidebar.sidebar-dark,
+.sidebar .card.card-sidebar-mobile {
+    border-radius: 1px !important;
+    overflow: hidden;
+}
+
+/* Active menu item background color and border radius */
+.sidebar-dark .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-dark .nav-sidebar > .nav-item-open > .nav-link:not(.disabled) {
+    background-color: #1b8ecc !important;
+    color: #fff !important;
+    border-radius: 50px !important;
+}
+
+/* Submenu active item */
+.sidebar-dark .nav-group-sub .nav-link.active {
+    background-color: #1b8ecc !important;
+    color: #fff !important;
+    border-radius: 50px !important;
+}
+
+/* Make top navbar background black */
+.navbar.navbar-dark {
+    background-color: #000 !important;
+}
+äää
+/* Add border radius to the School Events Calendar card */
+.card .fullcalendar-basic,
+.card .card-body .fullcalendar-basic {
+    border-radius: 18px !important;
+    overflow: hidden;
+}
+
+/* Optionally, round the whole card */
+.card {
+    border-radius: 18px !important;
+    overflow: hidden;
+}

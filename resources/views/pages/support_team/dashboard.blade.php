@@ -143,56 +143,33 @@
         @include('pages.parent.children_table', ['students' => $students])
     @endif
 
-    {{--Events Calendar Begins--}}
-    <div class="card">
-        <div class="card-header header-elements-inline">
-            <h5 class="card-title">School Events Calendar</h5>
-            {!! Qs::getPanelOptions() !!}
+
+
+    <div class="row mt-4">
+        <!-- Chart on the left -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">User Type Chart</h5>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center" style="height: 350px;">
+                    <canvas id="userTypeChart" width="500%" height=400"></canvas>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <div class="fullcalendar-basic"></div>
+
+        <!-- Calendar on the right -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">School Events Calendar</h5>
+                    {!! Qs::getPanelOptions() !!}
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <div class="fullcalendar-basic" style="height: 100%;"></div>
+                </div>
+            </div>
         </div>
     </div>
-    {{--Events Calendar Ends--}}
 
-    @if(Auth::user() && Auth::user()->user_type === 'super_admin' && isset($logs))
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="card-title">Recent User Event Logs</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>URL</th>
-                            <th>IP</th>
-                            <th>Browser</th>
-                            <th>Action</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($logs as $log)
-                            <tr>
-                                <td>{{ $log->id }}</td>
-                                <td>{{ $log->user_id }}</td>
-                                <td>{{ $log->url }}</td>
-                                <td>{{ $log->ip_address }}</td>
-                                <td>{{ Str::limit($log->browser, 30) }}</td>
-                                <td>{{ $log->action }}</td>
-                                <td>{{ $log->created_at }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7">No logs found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-                <a href="{{ url('/logs') }}" class="btn btn-primary btn-sm mt-2">View All Logs</a>
-            </div>
-        </div>
-    @endif
 @endsection

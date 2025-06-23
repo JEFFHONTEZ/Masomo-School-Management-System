@@ -90,7 +90,15 @@ class HomeController extends Controller
         $data = [];
 
         if(Qs::userIsTeamSA()){
-            $data['users'] = $this->user->getAll();
+            $users = \App\User::all();
+            $userTypeCounts = [
+                'students' => $users->where('user_type', 'student')->count(),
+                'teachers' => $users->where('user_type', 'teacher')->count(),
+                'admins' => $users->where('user_type', 'admin')->count(),
+                'parents' => $users->where('user_type', 'parent')->count(),
+            ];
+            $data['userTypeCounts'] = $userTypeCounts;
+            $data['users'] = $users;
         }
 
         if(Qs::userIsTeacher()){

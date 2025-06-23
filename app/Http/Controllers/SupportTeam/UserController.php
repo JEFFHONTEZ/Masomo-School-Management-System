@@ -59,7 +59,7 @@ class UserController extends Controller
             return back()->with('flash_danger', __('msg.denied'));
         }
 
-        $data['password'] = Hash::make('user');
+        $data['password'] = Hash::make('123456789');
         $this->user->update($id, $data);
         return back()->with('flash_success', __('msg.pu_reset'));
     }

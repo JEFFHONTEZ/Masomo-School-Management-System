@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
         $d = [
 
             ['name' => 'Jeff Kamau',
-                'email' => 'jeff@example.com',
+                'email' => 'jeff@super.com',
                 'username' => 'jeff',
                 'password' => $password,
                 'user_type' => 'super_admin',
