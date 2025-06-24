@@ -6,6 +6,7 @@ use App\Helpers\Qs;
 use App\Repositories\UserRepo;
 use App\Repositories\StudentRepo;
 use App\Models\UserEventLog;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -87,7 +88,9 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        $data = [];
+        $users = collect(); // Always define $users as a collection
+        $students_by_class = [];
+        $logs = null;
 
         if(Qs::userIsTeamSA()){
             $users = \App\User::all();
@@ -97,19 +100,14 @@ class HomeController extends Controller
                 'admins' => $users->where('user_type', 'admin')->count(),
                 'parents' => $users->where('user_type', 'parent')->count(),
             ];
-            $data['userTypeCounts'] = $userTypeCounts;
-            $data['users'] = $users;
         }
 
         if(Qs::userIsTeacher()){
             $teacher_id = auth()->id();
-
-            // Get all classes where the teacher teaches at least one subject
             $classes = \App\Models\MyClass::whereHas('subjects', function($q) use ($teacher_id) {
                 $q->where('teacher_id', $teacher_id);
             })->get();
 
-            $students_by_class = [];
             foreach($classes as $class) {
                 $students_by_class[$class->id] = [
                     'name' => $class->name,
@@ -119,18 +117,40 @@ class HomeController extends Controller
                         })->get()
                 ];
             }
-            $data['students_by_class'] = $students_by_class;
             $data['classes'] = $classes;
         }
 
         if(Qs::userIsParent()) {
-            $data['students'] = app(StudentRepo::class)
+            $students = app(\App\Repositories\StudentRepo::class)
                 ->getRecord(['my_parent_id' => Auth::user()->id])
                 ->with(['my_class', 'section', 'user'])
                 ->get();
+        } else {
+            $students = [];
         }
 
-        return view('pages.support_team.dashboard', $data);
+        $userType = Auth::user()->user_type;
+
+        if (Qs::userIsTeamSA() || Qs::userIsAdmin()) {
+            // Show all announcements for super admin and admin
+            $announcements = \App\Models\Announcement::orderBy('created_at', 'desc')
+                ->take(10)
+                ->get();
+        } else {
+            // Show only announcements for the current user type
+            $announcements = \App\Models\Announcement::whereJsonContains('visible_to', $userType)
+                ->orderBy('created_at', 'desc')
+                ->take(10)
+                ->get();
+        }
+
+        return view('pages.support_team.dashboard', compact(
+            'users',
+            'students_by_class',
+            'announcements',
+            'logs',
+            'userTypeCounts'
+        ));
     }
 
     public function children()

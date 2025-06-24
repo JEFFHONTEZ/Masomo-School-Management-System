@@ -16,7 +16,8 @@
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.0",
-        "safaricom/mpesa": "^1.0"
+        "safaricom/mpesa": "^1.0",
+        "spatie/laravel-activitylog": "^4.10"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",

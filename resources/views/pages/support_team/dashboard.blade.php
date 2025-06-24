@@ -74,6 +74,43 @@
     </div>
     @endif
 
+    {{-- Announcements Section --}}
+    <div class="row mt-4">
+        @if(Qs::userIsTeamSA() || Qs::userIsAdmin())
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow" style="border-radius: 16px;">
+                    <div class="card-header bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                        <h5 class="mb-0">Add Announcement</h5>
+                    </div>
+                    <div class="card-body" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                        @include('announcements.form')
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow" style="border-radius: 16px;">
+                    <div class="card-header bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                        <h5 class="mb-0">Announcements</h5>
+                    </div>
+                    <div class="card-body" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; max-height: 500px; overflow-y: auto;">
+                        @include('announcements.list')
+                    </div>
+                </div>
+            </div>
+        @else
+            <div class="col-12 mb-4">
+                <div class="card h-100 shadow" style="border-radius: 16px;">
+                    <div class="card-header bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                        <h5 class="mb-0">Announcements</h5>
+                    </div>
+                    <div class="card-body" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; max-height: 400px; overflow-y: auto;">
+                        @include('announcements.list')
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+
     @if(!empty($students_by_class) && count($students_by_class))
         <div class="card mt-4">
             <div class="card-header header-elements-inline">
@@ -143,8 +180,8 @@
         @include('pages.parent.children_table', ['students' => $students])
     @endif
 
-
-
+    {{-- Chart + Calendar for Super Admin and Admin --}}
+    @if(Qs::userIsTeamSA() || Qs::userIsAdmin())
     <div class="row mt-4">
         <!-- Chart on the left -->
         <div class="col-md-6 mb-4">
@@ -153,7 +190,7 @@
                     <h5 class="card-title mb-0">User Type Chart</h5>
                 </div>
                 <div class="card-body d-flex align-items-center justify-content-center" style="height: 350px;">
-                    <canvas id="userTypeChart" width="500%" height=400"></canvas>
+                    <canvas id="userTypeChart" width="500%" height="400"></canvas>
                 </div>
             </div>
         </div>
@@ -171,5 +208,59 @@
             </div>
         </div>
     </div>
+    @else
+    {{-- Full-width calendar for other users --}}
+    <div class="row mt-4">
+        <div class="col-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">School Events Calendar</h5>
+                    {!! Qs::getPanelOptions() !!}
+                </div>
+                <div class="card-body p-0" style="height: 100%;">
+                    <div class="fullcalendar-basic" style="height: 600px; width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+@endsection
 
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var chartCanvas = document.getElementById('userTypeChart');
+    if (chartCanvas) {
+        var ctx = chartCanvas.getContext('2d');
+        var userTypeChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Students', 'Teachers', 'Admins', 'Parents'],
+                datasets: [{
+                    label: 'User Count',
+                    data: [
+                        {{ $userTypeCounts['students'] ?? 0 }},
+                        {{ $userTypeCounts['teachers'] ?? 0 }},
+                        {{ $userTypeCounts['admins'] ?? 0 }},
+                        {{ $userTypeCounts['parents'] ?? 0 }}
+                    ],
+                    backgroundColor: [
+                        '#42a5f5', '#ef5350', '#66bb6a', '#ab47bc'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+});
+</script>
 @endsection

@@ -15717,6 +15717,18 @@
      
 }
 
+    namespace Safaricom\Mpesa { 
+            /**
+     * Class MpesaServiceProvider
+     *
+     * @package Safaricom\Mpesa
+     */ 
+        class MpesaServiceProvider {
+         
+    }
+     
+}
+
     namespace Facade\Ignition\Facades { 
             /**
      * Class Flare.
@@ -19605,6 +19617,7 @@ namespace  {
             class Qs extends \App\Helpers\Qs {}
             class Mk extends \App\Helpers\Mk {}
             class Pay extends \App\Helpers\Pay {}
+            class Mpesa extends \Safaricom\Mpesa\MpesaServiceProvider {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
      
 }

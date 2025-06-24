@@ -72,14 +72,14 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Phone:</label>
-                                        <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" placeholder="+2341234567" >
+                                        <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" placeholder="254712345678" >
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Telephone:</label>
-                                        <input value="{{ old('phone2') }}" type="text" name="phone2" class="form-control" placeholder="+2341234567" >
+                                        <input value="{{ old('phone2') }}" type="text" name="phone2" class="form-control" placeholder="254712345678" >
                                     </div>
                                 </div>
 

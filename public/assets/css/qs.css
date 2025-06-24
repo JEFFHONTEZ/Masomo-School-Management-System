@@ -34,7 +34,7 @@
 .navbar.navbar-dark {
     background-color: #000 !important;
 }
-äää
+
 /* Add border radius to the School Events Calendar card */
 .card .fullcalendar-basic,
 .card .card-body .fullcalendar-basic {
@@ -46,4 +46,27 @@
 .card {
     border-radius: 18px !important;
     overflow: hidden;
+}
+
+/* Make fullcalendar-basic fill its parent for full-width calendar */
+.fullcalendar-basic {
+    width: 100% !important;
+    min-height: 500px !important;
+    height: 100% !important;
+    /* Remove border-radius if you want it square for non-admins */
+}
+
+/* Optionally, only apply border-radius for admin cards */
+@media (min-width: 768px) {
+    .col-md-6 .fullcalendar-basic {
+        border-radius: 18px !important;
+    }
+}
+
+.alert-info,
+.alert-secondary {
+    border-radius: 20px !important;
+}
+.btn {
+    border-radius: 15px !important;
 }

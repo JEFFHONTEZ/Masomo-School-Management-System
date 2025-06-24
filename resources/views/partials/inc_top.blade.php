@@ -20,8 +20,6 @@
     <script src="{{ asset('global_assets/js/main/jquery.min.js') }} "></script>
     <script src="{{ asset('global_assets/js/main/bootstrap.bundle.min.js') }} "></script>
     <script src="{{ asset('global_assets/js/plugins/loaders/blockui.min.js') }} "></script>
-<!-- Add this in your @section('content') or @push('scripts') or at the bottom before </body> -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

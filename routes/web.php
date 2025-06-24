@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\LoggingController;
 use App\Http\Controllers\SupportTeam\MpesaController;
+use App\Http\Controllers\AnnouncementController;
 
 Auth::routes(['register' => false]);
 Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -19,7 +20,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Remove or comment out these lines:
     // Route::get('/', 'HomeController@dashboard')->name('home');
     Route::get('/home', 'HomeController@dashboard')->name('home');
-    Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
     Route::group(['prefix' => 'my_account'], function() {
         Route::get('/', 'MyAccountController@edit_profile')->name('my_account');
@@ -202,3 +203,11 @@ Route::view('/calendar', 'calendar')->name('calendar');
 Route::post('/mpesa/callback', [MpesaController::class, 'callback'])->name('mpesa.callback');
 
 Route::get('/logs', [LoggingController::class, 'index'])->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+    Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
+    Route::get('/announcements/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
+    Route::put('/announcements/{announcement}', [AnnouncementController::class, 'update'])->name('announcements.update');
+    Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+});
