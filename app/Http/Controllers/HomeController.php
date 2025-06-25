@@ -92,13 +92,21 @@ class HomeController extends Controller
         $students_by_class = [];
         $logs = null;
 
+        // Always define userTypeCounts with default values
+        $userTypeCounts = [
+            'students' => 0,
+            'teachers' => 0,
+            'admins'   => 0,
+            'parents'  => 0,
+        ];
+
         if(Qs::userIsTeamSA()){
             $users = \App\User::all();
             $userTypeCounts = [
                 'students' => $users->where('user_type', 'student')->count(),
                 'teachers' => $users->where('user_type', 'teacher')->count(),
-                'admins' => $users->where('user_type', 'admin')->count(),
-                'parents' => $users->where('user_type', 'parent')->count(),
+                'admins'   => $users->where('user_type', 'admin')->count(),
+                'parents'  => $users->where('user_type', 'parent')->count(),
             ];
         }
 
