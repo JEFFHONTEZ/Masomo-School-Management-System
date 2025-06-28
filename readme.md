@@ -36,9 +36,6 @@ Open the extracted folder in your preferred code editor (e.g., VS Code).
 **2. Install PHP Dependencies**
 Open your terminal in the project directory and run:
 
-bash
-Copy
-Edit
 composer install
 
 **3. Set Up Environment File**
