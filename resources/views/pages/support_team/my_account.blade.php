@@ -103,7 +103,10 @@
                                     <div class="form-group row">
                                         <label for="address" class="col-lg-3 col-form-label font-weight-semibold">Change Photo </label>
                                         <div class="col-lg-9">
-                                            <input  accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc>
+                                            @if ($errors->has('photo'))
+                                                <div class="text-danger mb-2">{{ $errors->first('photo') }}</div>
+                                            @endif
+                                            <input accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc>
                                         </div>
                                     </div>
 

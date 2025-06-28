@@ -16,11 +16,11 @@ class SettingsTableSeeder extends Seeder
         DB::table('settings')->delete();
 
         $data = [
-            ['type' => 'current_session', 'description' => '2024-2025'],
+            ['type' => 'current_session', 'description' => '2025-2026'],
             ['type' => 'system_title', 'description' => 'MSMS'],
             ['type' => 'system_name', 'description' => 'MASOMO ACADEMY'],
-            ['type' => 'term_ends', 'description' => '1/05/2024'],
-            ['type' => 'term_begins', 'description' => '10/10/2024'],
+            ['type' => 'term_ends', 'description' => '20/10/2025'],
+            ['type' => 'term_begins', 'description' => '01/01/2026'],
             ['type' => 'phone', 'description' => '0123456789'],
             ['type' => 'address', 'description' => 'Nakuru, Kenya'],
             ['type' => 'system_email', 'description' => 'jeffkamau8501@gmail.com'],

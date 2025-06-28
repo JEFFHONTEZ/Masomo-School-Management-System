@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
 
     protected function createNewUsers()
     {
-        $password = Hash::make('cj'); // Default user password
+        $password = Hash::make('123456789'); // Default user password
 
         $d = [
 
@@ -80,14 +80,14 @@ class UsersTableSeeder extends Seeder
     protected function createManyUsers(int $count)
     {
         $data = [];
-        $user_type = Qs::getAllUserTypes(['super_admin', 'student']);
+        $user_type = Qs::getAllUserTypes(['student', 'parent', 'teacher', 'admin', 'accountant']);
 
         for($i = 1; $i <= $count; $i++){
 
             foreach ($user_type as $k => $ut){
 
                 $data[] = ['name' => ucfirst($user_type[$k]).' '.$i,
-                    'email' => $user_type[$k].$i.'@'.$user_type[$k].'.com',
+                    'email' => $user_type[$k].'@example.com',
                     'user_type' => $user_type[$k],
                     'username' => $user_type[$k].$i,
                     'password' => Hash::make($user_type[$k]),

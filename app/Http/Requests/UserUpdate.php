@@ -20,12 +20,13 @@ class UserUpdate extends FormRequest
     public function rules()
     {
         $userId = $this->user() ? $this->user()->id : null;
+
         return [
             'phone' => 'sometimes|nullable|string|min:6|max:20',
             'phone2' => 'sometimes|nullable|string|min:6|max:20',
             'email' => 'sometimes|nullable|email|max:100|unique:users,email,' . $userId,
             'username' => 'required|alpha_dash|min:8|max:100|unique:users,username,' . $userId,
-            'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
+            'photo' => 'nullable|image|max:20480', // 20MB in kilobytes
             'address' => 'required|string|min:6|max:120',
             'name' => 'required|string|max:255',
         ];
