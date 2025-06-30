@@ -6,6 +6,7 @@ use App\Models\MyClass;
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class SubjectsTableSeeder extends Seeder
 {
@@ -110,7 +111,7 @@ class SubjectsTableSeeder extends Seeder
 
                 DB::table('subjects')->insert([
                     'name' => $subject,
-                    'slug' => \Str::slug($subject),
+                    'slug' => Str::slug($subject),
                     'my_class_id' => $my_class->id,
                     'teacher_id' => $teacher_id,
                 ]);

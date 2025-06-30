@@ -29,40 +29,53 @@ Laravel Installer (optional but recommended)
 **2. Installation Guide**
 
 **1. Download the Project**
+
 Download and extract this project (lav_sms.zip) on your computer.
 
 Open the extracted folder in your preferred code editor (e.g., VS Code).
 
 **2. Install PHP Dependencies**
+
 Open your terminal in the project directory and run:
 
 composer install
 
 **3. Set Up Environment File**
+
 Copy the example environment file:
 
-cp .env.example .env
+cp .env.example .env or copy .env.example .env (on windows)
+
+
 Open .env and set your database configuration:
+
 DB_DATABASE=your_db_name
 DB_USERNAME=your_db_user
 DB_PASSWORD=your_db_password
 
 **4. Generate App Key**
+
 php artisan key:generate
 
 **5. Create the Database**
+
 Create a MySQL database manually using phpMyAdmin or CLI.
 
 **6. Run Migrations and Seeders**
+
 php artisan migrate --seed
 This will create tables and insert some default data including users.
 
 **7. Install Node Modules and Compile Assets**
+
 npm install
 npm run dev
 
 **8. Serve the Project**
+
 php artisan serve
+
+
 Visit http://127.0.0.1:8000 in your browser.
 
 🔐 Default Login Credentials

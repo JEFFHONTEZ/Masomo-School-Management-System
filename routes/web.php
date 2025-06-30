@@ -106,7 +106,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('pay_now/{id}', 'PaymentController@pay_now')->name('payments.pay_now');
             Route::post('mpesa', [\App\Http\Controllers\SupportTeam\PaymentController::class, 'payWithMpesa'])->name('payments.mpesa');
             Route::post('/stk_pay_now/{pr_id}', [\App\Http\Controllers\SupportTeam\PaymentController::class, 'stk_pay_now'])->name('payments.stk_pay_now');
-            Route::post('payments/stk_push/{pr_id}', [PaymentController::class, 'stk_push'])->name('payments.stk_push');
+            Route::post('payments/stk_push/{pr_id}', [\App\Http\Controllers\SupportTeam\PaymentController::class, 'stk_push'])->name('payments.stk_push');
         
 
         });
