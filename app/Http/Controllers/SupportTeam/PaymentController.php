@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PDF;
-use Mpesa;
 
 class PaymentController extends Controller
 {
@@ -240,59 +239,4 @@ class PaymentController extends Controller
 
         return back()->with('flash_success', __('msg.update_ok'));
     }
-
-
-    public function stk_pay_now(Request $req, $pr_id)
-    {
-        // Decode the hash to get the real ID
-        $real_id = Qs::decodeHash($pr_id); // Use your actual decode method
-
-        $this->validate($req, [
-            'amt_paid' => 'required|numeric|min:1',
-            'phone' => 'required|regex:/^2547\d{8}$/'
-        ], [], [
-            'amt_paid' => 'Amount Paid',
-            'phone' => 'Phone Number'
-        ]);
-
-        $pr = $this->pay->findRecord($real_id); // Use the decoded ID
-        if(!$pr) {
-            return response()->json(['message' => 'Payment record not found.'], 404);
-        }
-        $payment = $this->pay->find($pr->payment_id);
-
-        $amount = $req->amt_paid;
-        $phone = $req->phone;
-
-        $mpesa = new \Safaricom\Mpesa\Mpesa();
-        $BusinessShortCode = '174379';
-        $LipaNaMpesaPasskey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
-        $TransactionType = 'CustomerPayBillOnline';
-        $PartyA = $phone;
-        $PartyB = $BusinessShortCode;
-        $PhoneNumber = $phone;
-        $CallBackURL = 'https://a7d7-196-200-32-222.ngrok-free.app/mpesa/callback'; // Update to your callback URL
-        $AccountReference = $payment->title ?? 'Payment';
-        $TransactionDesc = 'Payment for ' . ($payment->title ?? 'Invoice');
-        $Remarks = 'Payment for ' . ($payment->title ?? 'Invoice');
-
-        $stkPushSimulation = $mpesa->STKPushSimulation(
-            $BusinessShortCode,
-            $LipaNaMpesaPasskey,
-            $TransactionType,
-            $amount,
-            $PartyA,
-            $PartyB,
-            $PhoneNumber,
-            $CallBackURL,
-            $AccountReference,
-            $TransactionDesc,
-            $Remarks
-        );
-
-        \Log::info('STK Push Response:', (array) $stkPushSimulation);
-
-        return response()->json($stkPushSimulation);
-    }
-
 }

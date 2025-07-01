@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Masomo'),
+    'name' => env('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'Africa/Nairobi',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,7 +160,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        \Safaricom\Mpesa\MpesaServiceProvider::class,
     ],
 
     /*
@@ -213,7 +212,6 @@ return [
         'Qs' => App\Helpers\Qs::class,
         'Mk' => App\Helpers\Mk::class,
         'Pay' => App\Helpers\Pay::class,
-        'Mpesa'=> \Safaricom\Mpesa\MpesaServiceProvider::class
     ],
 
 ];

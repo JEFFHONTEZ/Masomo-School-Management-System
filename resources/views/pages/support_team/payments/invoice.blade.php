@@ -27,7 +27,7 @@
                         <th>Balance</th>
                         <th>Pay Now</th>
                         <th>Receipt_No</th>
-                        {{-- <th>Year</th> --}} <!-- Removed -->
+                        <th>Year</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -37,27 +37,36 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $uc->payment->title }}</td>
                             <td>{{ $uc->payment->ref_no }}</td>
+
+                            {{--Amount--}}
                             <td class="font-weight-bold" id="amt-{{ Qs::hash($uc->id) }}" data-amount="{{ $uc->payment->amount }}">{{ $uc->payment->amount }}</td>
+
+                            {{--Amount Paid--}}
                             <td id="amt_paid-{{ Qs::hash($uc->id) }}" data-amount="{{ $uc->amt_paid ?: 0 }}" class="text-blue font-weight-bold">{{ $uc->amt_paid ?: '0.00' }}</td>
+
+                            {{--Balance--}}
                             <td id="bal-{{ Qs::hash($uc->id) }}" class="text-danger font-weight-bold">{{ $uc->balance ?: $uc->payment->amount }}</td>
+
+                            {{--Pay Now Form--}}
                             <td>
-                                <form id="{{ Qs::hash($uc->id) }}" method="post" class="ajax-stk-pay" action="{{ route('payments.stk_pay_now', Qs::hash($uc->id)) }}">
+                                <form id="{{ Qs::hash($uc->id) }}" method="post" class="ajax-pay" action="{{ route('payments.pay_now', Qs::hash($uc->id)) }}">
                                     @csrf
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <input type="text" name="phone" class="form-control" required placeholder="2547XXXXXXXX" title="Phone Number">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input min="1" max="{{ $uc->balance ?: $uc->payment->amount }}" id="val-{{ Qs::hash($uc->id) }}" class="form-control" required placeholder="Pay Now" title="Pay Now" name="amt_paid" type="number">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button data-text="Pay" class="btn btn-success" type="submit">Mpesa pay <i class="icon-paperplane ml-2"></i></button>
-                                        </div>
-                                    </div>
+                             <div class="row">
+                                 <div class="col-md-7">
+                                     <input min="1" max="{{ $uc->balance ?: $uc->payment->amount }}" id="val-{{ Qs::hash($uc->id) }}" class="form-control" required placeholder="Pay Now" title="Pay Now" name="amt_paid" type="number">
+                                 </div>
+                                 <div class="col-md-5">
+                                     <button data-text="Pay" class="btn btn-danger" type="submit">Pay <i class="icon-paperplane ml-2"></i></button>
+                                 </div>
+                             </div>
                                 </form>
                             </td>
+                            {{--Receipt No--}}
                             <td>{{ $uc->ref_no }}</td>
-                            {{-- <td>{{ $uc->year }}</td> --}} <!-- Removed -->
+
+                            <td>{{ $uc->year }}</td>
+
+                            {{--Action--}}
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
@@ -94,7 +103,7 @@
                         <th>Pay_Ref</th>
                         <th>Amount</th>
                         <th>Receipt_No</th>
-                        {{-- <th>Year</th> --}} <!-- Removed -->
+                        <th>Year</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -104,9 +113,15 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $cl->payment->title }}</td>
                             <td>{{ $cl->payment->ref_no }}</td>
+
+                            {{--Amount--}}
                             <td class="font-weight-bold">{{ $cl->payment->amount }}</td>
+                            {{--Receipt No--}}
                             <td>{{ $cl->ref_no }}</td>
-                            {{-- <td>{{ $cl->year }}</td> --}} <!-- Removed -->
+
+                            <td>{{ $cl->year }}</td>
+
+                            {{--Action--}}
                             <td class="text-center">
                                 <div class="list-icons">
                                     <div class="dropdown">
@@ -141,8 +156,4 @@
 
     {{--Payments Invoice List Ends--}}
 
-@endsection
-
-@section('scripts')
-    <script src="{{ asset('assets/js/payments.js') }}"></script>
 @endsection
