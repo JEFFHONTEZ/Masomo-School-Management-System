@@ -15,7 +15,9 @@
         </tr>
         <tr>
             <td><strong>NEXT TERM FEES:</strong></td>
-            <td>Ksh {{ $s['next_term_fees_'.strtolower($ct)] }}</td>
+            <td>
+                Ksh {{ $s['next_term_fees_'.strtolower($class_type->code)] ?? '__________' }}
+            </td>
         </tr>
         </tbody>
     </table>

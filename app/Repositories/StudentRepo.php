@@ -45,11 +45,6 @@ class StudentRepo {
         return StudentRecord::find($id)->update($data);
     }
 
-    public function update(array $where, array $data)
-    {
-        return StudentRecord::where($where)->update($data);
-    }
-
     public function getRecord(array $data)
     {
         return $this->activeStudents()->where($data)->with('user');
@@ -111,4 +106,8 @@ class StudentRepo {
         return Promotion::where($where)->get();
     }
 
+    public function update(array $where, array $data)
+    {
+        return StudentRecord::where($where)->update($data);
+    }
 }

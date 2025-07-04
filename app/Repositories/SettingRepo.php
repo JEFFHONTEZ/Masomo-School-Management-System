@@ -9,7 +9,16 @@ class SettingRepo
 {
     public function update($type, $desc)
     {
-        return Setting::where('type', $type)->update(['description' => $desc]);
+        $setting = \App\Models\Setting::where('type', $type)->first();
+        if($setting) {
+            $setting->description = $desc;
+            $setting->save();
+        } else {
+            \App\Models\Setting::create([
+                'type' => $type,
+                'description' => $desc
+            ]);
+        }
     }
 
     public function getSetting($type)

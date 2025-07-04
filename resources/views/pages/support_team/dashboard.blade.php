@@ -79,8 +79,9 @@
         @if(Qs::userIsTeamSA() || Qs::userIsAdmin())
             <div class="col-md-6 mb-4">
                 <div class="card h-100 shadow" style="border-radius: 16px;">
-                    <div class="card-header bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                         <h5 class="mb-0">Add Announcement</h5>
+                        {!! Qs::getPanelOptions() !!}
                     </div>
                     <div class="card-body" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
                         @include('announcements.form')
@@ -89,8 +90,9 @@
             </div>
             <div class="col-md-6 mb-4">
                 <div class="card h-100 shadow" style="border-radius: 16px;">
-                    <div class="card-header bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                         <h5 class="mb-0">Announcements</h5>
+                        {!! Qs::getPanelOptions() !!}
                     </div>
                     <div class="card-body" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; max-height: 500px; overflow-y: auto;">
                         @include('announcements.list')
@@ -100,8 +102,9 @@
         @else
             <div class="col-12 mb-4">
                 <div class="card h-100 shadow" style="border-radius: 16px;">
-                    <div class="card-header bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                    <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white" style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                         <h5 class="mb-0">Announcements</h5>
+                        {!! Qs::getPanelOptions() !!}
                     </div>
                     <div class="card-body" style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; max-height: 400px; overflow-y: auto;">
                         @include('announcements.list')
@@ -113,8 +116,8 @@
 
     @if(!empty($students_by_class) && count($students_by_class))
         <div class="card mt-4">
-            <div class="card-header header-elements-inline">
-                <h3 class="card-title">My Students</h3>
+            <div class="card-header d-flex justify-content-between align-items-center header-elements-inline">
+                <h3 class="card-title mb-0">My Students</h3>
                 {!! Qs::getPanelOptions() !!}
             </div>
             <div class="card-body">
@@ -186,8 +189,9 @@
         <!-- Chart on the left -->
         <div class="col-md-6 mb-4">
             <div class="card h-100">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">User Type Chart</h5>
+                    {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="card-body d-flex align-items-center justify-content-center" style="height: 350px;">
                     <canvas id="userTypeChart" width="500%" height="400"></canvas>
@@ -198,8 +202,8 @@
         <!-- Calendar on the right -->
         <div class="col-md-6 mb-4">
             <div class="card h-100">
-                <div class="card-header header-elements-inline">
-                    <h5 class="card-title">School Events Calendar</h5>
+                <div class="card-header d-flex justify-content-between align-items-center header-elements-inline">
+                    <h5 class="card-title mb-0">School Events Calendar</h5>
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="card-body" style="height: 350px;">
@@ -213,8 +217,8 @@
     <div class="row mt-4">
         <div class="col-12 mb-4">
             <div class="card h-100">
-                <div class="card-header header-elements-inline">
-                    <h5 class="card-title">School Events Calendar</h5>
+                <div class="card-header d-flex justify-content-between align-items-center header-elements-inline">
+                    <h5 class="card-title mb-0">School Events Calendar</h5>
                     {!! Qs::getPanelOptions() !!}
                 </div>
                 <div class="card-body p-0" style="height: 100%;">
@@ -226,41 +230,6 @@
     @endif
 @endsection
 
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    var chartCanvas = document.getElementById('userTypeChart');
-    if (chartCanvas) {
-        var ctx = chartCanvas.getContext('2d');
-        var userTypeChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Students', 'Teachers', 'Admins', 'Parents'],
-                datasets: [{
-                    label: 'User Count',
-                    data: [
-                        {{ $userTypeCounts['students'] ?? 0 }},
-                        {{ $userTypeCounts['teachers'] ?? 0 }},
-                        {{ $userTypeCounts['admins'] ?? 0 }},
-                        {{ $userTypeCounts['parents'] ?? 0 }}
-                    ],
-                    backgroundColor: [
-                        '#42a5f5', '#ef5350', '#66bb6a', '#ab47bc'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { beginAtZero: true }
-                }
-            }
-        });
-    }
-});
-</script>
-@endsection
+@push('scripts')
+    @include('partials.js.chart_user_type')
+@endpush
