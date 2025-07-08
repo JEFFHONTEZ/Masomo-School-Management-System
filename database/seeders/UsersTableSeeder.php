@@ -80,23 +80,21 @@ class UsersTableSeeder extends Seeder
     protected function createManyUsers(int $count)
     {
         $data = [];
+        // Remove 'super_admin' and 'librarian' from the list below
         $user_type = Qs::getAllUserTypes(['student', 'parent', 'teacher', 'admin', 'accountant']);
 
         for($i = 1; $i <= $count; $i++){
-
             foreach ($user_type as $k => $ut){
-
-                $data[] = ['name' => ucfirst($user_type[$k]).' '.$i,
-                    'email' => $user_type[$k].'@example.com',
+                $data[] = [
+                    'name' => ucfirst($user_type[$k]).' '.$i,
+                    'email' => $user_type[$k].$i.'@example.com', // Make email unique per user
                     'user_type' => $user_type[$k],
                     'username' => $user_type[$k].$i,
                     'password' => Hash::make($user_type[$k]),
                     'code' => strtoupper(Str::random(10)),
                     'remember_token' => Str::random(10),
                 ];
-
             }
-
         }
 
         DB::table('users')->insert($data);
