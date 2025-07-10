@@ -77,8 +77,27 @@ class UserController extends Controller
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamSA = in_array($user_type, Qs::getTeamSA());
 
-        $staff_id = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
-        $data['username'] = $uname = ($user_is_teamSA) ? $req->username : $staff_id;
+        $roleMap = [
+            'teacher' => 'TCH',
+            'accountant'=> 'ACC',
+            'student' => 'STD',
+            'parent'  => 'PRT',
+            ];
+
+            // Convert user type to abbreviation or fallback to full uppercase
+            $user_type_slug = $roleMap[strtolower($user_type)] ?? strtoupper($user_type);
+            
+            // Generate parts
+            $random_number = mt_rand(1000, 9999);
+            $year_suffix = date('y', strtotime($req->emp_date)); // e.g. '25' for 2025
+            
+            // Final username format: APP/ROLE/1234/25
+            $generated_username = Qs::getAppCode() . '/' . $user_type_slug . '/' . $random_number . '/' . $year_suffix;
+            
+            // Assign the username
+            $data['username'] = $uname = ($user_is_teamSA) ? $req->username : $generated_username;
+
+
 
         $pass = $req->password ?: $user_type;
         $data['password'] = Hash::make($pass);
@@ -102,7 +121,7 @@ class UserController extends Controller
         if($user_is_staff){
             $d2 = $req->only(Qs::getStaffRecord());
             $d2['user_id'] = $user->id;
-            $d2['code'] = $staff_id;
+            $d2['code'] = $generated_username;
             $this->user->createStaffRecord($d2);
         }
 
